@@ -9,9 +9,17 @@ function PizzaCard(props) {
         setClicked(!clicked);
         setAnimate(true);
         setTimeout(() => setAnimate(false), 200);
+        console.log("Clicked on pizza with ID:", props.id);
+        console.log("Token:", localStorage.getItem("token"));
 
-        // TODO: Implement the API call to update the upvotes in the backend
-    };
+        fetch('http://localhost:8080/votes/vote/' + props.id, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
+            }
+        });
+    }
 
     return (
         <div className="relative w-72 bg-zinc-800 rounded-lg shadow-md p-6 flex flex-col m-6">

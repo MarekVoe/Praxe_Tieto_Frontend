@@ -1,35 +1,25 @@
-import './App.css'
-import PizzaCard from "./components/PizzaCard.jsx";
-import {useEffect, useState} from "react";
+import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import MainPage from "./pages/MainPage.jsx";
+import AdminSummaryPage from "./pages/AdminSummaryPage.jsx";
+import {useEffect} from "react";
 
-function App() {
-    const [pizzas, setPizzas] = useState([]);
-
+export default function App() {
     useEffect(() => {
-        fetch('http://localhost:8080/getAllPizzas')
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                setPizzas(data);
-            })
-            .catch(err => console.log(err));
+        fetch('http://localhost:8080/votes/generateToken')
+            .then(res => res.text()
+                .then(data => {
+                    console.log("Token generated:", data);
+                    localStorage.setItem("token", data);
+                })).catch(err => console.log(err));
     }, []);
 
     return (
-        <>
-            <div className="flex flex-wrap w-full h-auto p-8 gap-4">
-                {pizzas.map((pizza) => (
-                    <div key={pizza.id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-2">
-                        <PizzaCard
-                            id={pizza.id}
-                            name={pizza.name}
-                            upvotes={pizza.upvotes}
-                        />
-                    </div>
-                ))}
-            </div>
-        </>
-    )
+        <Router>
+            <Routes>
+                <Route path="/" element={<MainPage />} />
+                <Route path="/admin-summary" element={<AdminSummaryPage />} />
+            </Routes>
+        </Router>
+    );
 }
-
-export default App
