@@ -1,17 +1,21 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import PizzaCard from "../components/PizzaCard.jsx";
+import AddPizza from "../components/AddPizza.jsx";
 
 function MainPage() {
     const [pizzas, setPizzas] = useState([]);
 
-    useEffect(() => {
+    const fetchPizzas = () => {
         fetch('http://localhost:8080/getAllPizzas')
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 setPizzas(data);
             })
             .catch(err => console.log(err));
+    };
+
+    useEffect(() => {
+        fetchPizzas();
     }, []);
 
     return (
@@ -26,6 +30,7 @@ function MainPage() {
                         />
                     </div>
                 ))}
+                <AddPizza onPizzaAdded={fetchPizzas} />
             </div>
         </>
     );
