@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import PizzaCard from "../components/PizzaCard.jsx";
 import AddPizza from "../components/AddPizza.jsx";
+import Navbar from "../components/Navbar.jsx";
 
 function MainPage() {
     const [pizzas, setPizzas] = useState([]);
@@ -19,20 +20,21 @@ function MainPage() {
     }, []);
 
     return (
-        <>
-            <div className="flex flex-wrap w-full h-auto p-8 gap-4">
+        <div className="relative min-h-screen bg-[#010101]">
+            <Navbar />
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-8 pr-0 md:pr-[24rem]">
                 {pizzas.map((pizza) => (
-                    <div key={pizza.id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-2">
-                        <PizzaCard
-                            id={pizza.id}
-                            name={pizza.name}
-                            upvotes={pizza.upvotes}
-                        />
-                    </div>
+                    <PizzaCard
+                        key={pizza.id}
+                        id={pizza.id}
+                        name={pizza.name}
+                        description={pizza.description}
+                        upvotes={pizza.upvotes}
+                    />
                 ))}
-                <AddPizza onPizzaAdded={fetchPizzas} />
             </div>
-        </>
+            <AddPizza onPizzaAdded={fetchPizzas} />
+        </div>
     );
 }
 

@@ -1,8 +1,12 @@
 import SummaryChart from "../components/SummaryChart.jsx";
+import Navbar from "../components/Navbar.jsx";
 
 function AdminSummaryPage() {
     return (
-        <SummaryChart/>
+        <div>
+            <Navbar />
+            <SummaryChart />
+        </div>
     );
 }
 
